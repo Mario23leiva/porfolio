@@ -103,11 +103,25 @@
             border-bottom: none;
         }
 
+        .project-gallery-item {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .project-gallery-item img {
+            max-width: 100%;
+            display: flex;
+            align-items: center;
+        }
+
         @media (min-width: 768px) {
             .feature-list {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
+        
     </style>
 </head>
 
@@ -165,7 +179,6 @@
                 <div class="tech-badges">
                     <span class="tech-badge">SAP SD</span>
                     <span class="tech-badge">ABAP OO</span>
-                    <span class="tech-badge">SAP FIORI</span>
                     <span class="tech-badge">ALV Reports</span>
                 </div>
             </div>
@@ -173,11 +186,11 @@
             <div class="project-section">
                 <h2>Arquitectura de la Solución</h2>
                 <p>Desarrollé una solución personalizada basada en las tablas estándar de SAP pero adaptadas a las
-                    necesidades específicas del cliente:</p>
+                    necesidades específicas del cliente, creando dominios, elementos de datos, tablas y vistas de
+                    actualización. Además del diseño de las pantallas usando dynpros combinando eventos PBO, PAI, Funciones y POO</p>
 
                 <div class="architecture-diagram">
                     <h3>Modelo de Datos</h3>
-                    <img src="../assets/img/sgpv-diagrama.png" alt="Diagrama de arquitectura del SGPV">
 
                     <div class="feature-list">
                         <div class="feature-card">
@@ -278,59 +291,37 @@
             </div>
 
             <div class="project-section">
-                <h2>Implementación Técnica</h2>
-
-                <h3>Creación de Tablas Personalizadas</h3>
-                <div class="code-block">
-                    // Definición de tabla ZVBAK_XX<br>
-                    CREATE TABLE zvbak_xx (<br>
-                    &nbsp;&nbsp;vbeln TYPE vbeln,<br>
-                    &nbsp;&nbsp;erdat TYPE erdat,<br>
-                    &nbsp;&nbsp;ernam TYPE ernam,<br>
-                    &nbsp;&nbsp;audat TYPE audat,<br>
-                    &nbsp;&nbsp;...<br>
-                    );
-                </div>
-
-                <h3>Implementación de Rango Numérico</h3>
-                <div class="code-block">
-                    // Obtener siguiente número de pedido<br>
-                    CALL FUNCTION 'NUMBER_GET_NEXT'<br>
-                    &nbsp;&nbsp;EXPORTING<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;nr_range_nr = '01'<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;object = 'ZPEDIDOS'<br>
-                    &nbsp;&nbsp;IMPORTING<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;number = lv_vbeln.
-                </div>
-
-                <h3>Generación de Reporte ALV</h3>
-                <div class="code-block">
-                    // Creación de reporte ALV<br>
-                    DATA: lo_table TYPE REF TO cl_salv_table.<br>
-                    <br>
-                    TRY.<br>
-                    &nbsp;&nbsp;cl_salv_table=>factory(<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;r_salv_table = lo_table<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t_table = lt_pedidos ).<br>
-                    <br>
-                    &nbsp;&nbsp;lo_table->display( ).<br>
-                    CATCH cx_salv_msg.<br>
-                    ENDTRY.
-                </div>
-            </div>
-
-            <div class="project-section">
                 <h2>Capturas del Sistema</h2>
                 <div class="project-gallery">
-                    <img src="../assets/Captura 1.png" alt="Pantalla de gestión de pedidos">
-                    <img src="../assets/Captura 2.png" alt="Reporte ALV de pedidos">
-                    <img src="../assets/Captura 3.png" alt="Mantenimiento de materiales">
-                    <img src="../assets/Captura 4.png" alt="Configuración de rangos numéricos">
-                    <img src="../assets/Captura 5.png" alt="Configuración de rangos numéricos">
-                    <img src="../assets/Captura 6.png" alt="Configuración de rangos numéricos">
-                    <img src="../assets/Captura 7.png" alt="Configuración de rangos numéricos">
+
+                    <div class="project-gallery-item">
+                        <h3>Interfaz principal</h3>
+                        <p>Para el diseño de la interfaz principal he optado por algo más óptimo de lo que estamos
+                            acostumbrados a encontrar en sap, de primera vista podemos encontrar que en la tabla de la
+                            izquierda automáticamente se cargan todos los pedidos de la tabla ZVBAK, y arriba tenmos 4
+                            pulsadores esenciales. Los pedidos se crean de manera automática una vez pulsas el botón
+                            Crear Pedido añadiendo el usuario actual, fecha y número de pedido usando para este último
+                            un generador de rango número automático</p>
+                        <br>
+                        <img src="../assets/Captura 1.png" alt="Pantalla de gestión de pedidos">
+                    </div>
+                    <br>
+                    <div class="project-gallery-item">
+                        <h3>Añadir material al pedido</h3>
+                        <p>Una vez hayamos seleccionado un pedido y hayamos pulsado el botón Visualizar Pedido, se cargarán los datos del pedido en el bloque superior izquierdo y simultáneamente los materiales de este en la tabla inferior, para añadir un material sólo tendremos que pulsar al botón de añadir, se nos abrirá una ventana de dialogo en la que está  vinculada una ayuda de búsqueda para los materíales</p>
+                        <br>
+                        <img src="../assets/Captura 2.png" alt="Reporte ALV de pedidos">
+                    </div>
+                    <br>
+                    <div class="project-gallery-item">
+                        <h3>Transacción para visualizar pedidos</h3>
+                        <p>Además he realizado una transacción para poder visualizar los todos los pedidos junto con los materiales, haciendo uso de join en consultas a la BBDD de SAP</p>
+                        <br>
+                        <img src="../assets/Captura 6.png" alt="Configuración de rangos numéricos">
+                        <br>
+                        <img src="../assets/Captura 7.png" alt="Configuración de rangos numéricos">
+                    </div>
+
                 </div>
             </div>
 

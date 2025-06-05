@@ -111,10 +111,16 @@
         }
 
         .screen-card {
+            position: relative;
             background: white;
             padding: 1.5rem;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            width: 100%;
+        }
+
+        .screen-card img{
+            width: 100%;
         }
 
         @media (min-width: 768px) {
@@ -194,8 +200,6 @@
                     integración a la tabla estándar SCARR para datos de compañías aéreas:</p>
 
                 <div class="workflow-diagram">
-                    <h3>Flujo del Sistema</h3>
-                    <img src="../assets/img/empleados-diagrama.png" alt="Diagrama de flujo del sistema de empleados">
 
                     <h3>Tabla Personalizada ZEMPLEADOS_XX</h3>
                     <table class="table-diagram">
@@ -300,92 +304,33 @@
                 </div>
             </div>
 
-            <div class="project-section">
-                <h2>Implementación Técnica</h2>
-
-                <h3>Creación de Ayuda de Búsqueda</h3>
-                <div class="code-block">
-                    // Implementación de ayuda de búsqueda para EMP_NUM<br>
-                    FORM f4_emp_num.<br>
-                    &nbsp;&nbsp;DATA: lt_empleados TYPE TABLE OF zempleados_xx.<br>
-                    <br>
-                    &nbsp;&nbsp;SELECT * FROM zempleados_xx<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;INTO TABLE lt_empleados<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;WHERE carrid = s_carrid.<br>
-                    <br>
-                    &nbsp;&nbsp;CALL FUNCTION 'F4IF_INT_TABLE_VALUE_REQUEST'<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ddic_structure = 'ZEMPLEADOS_XX'<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;TABLES<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value_tab = lt_empleados<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parameter_error = 1<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;no_values_found = 2.<br>
-                    ENDFORM.
-                </div>
-
-                <h3>Gestión de TabScrip</h3>
-                <div class="code-block">
-                    // Manejo de pestañas en TabScrip<br>
-                    MODULE user_command_9001 INPUT.<br>
-                    &nbsp;&nbsp;CASE sy-ucomm.<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;WHEN 'FC1'. " Pestaña Datos Empleado<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tab-activetab = 'FC1'.<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;WHEN 'FC2'. " Pestaña Compañía Aérea<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF zempleados IS INITIAL.<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE 'Seleccione un empleado primero' TYPE
-                    'I'.<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SELECT SINGLE * FROM scarr<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE carrid = zempleados-carrid.<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tab-activetab = 'FC2'.<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br>
-                    &nbsp;&nbsp;ENDCASE.<br>
-                    ENDMODULE.
-                </div>
-
-                <h3>Creación de Nuevos Empleados</h3>
-                <div class="code-block">
-                    // Lógica para creación de nuevos registros<br>
-                    IF sy-subrc = 4. " Registro no existe<br>
-                    &nbsp;&nbsp;CALL FUNCTION 'POPUP_TO_CONFIRM'<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text_question = 'Empleado no existe. ¿Desea crearlo?'<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;answer = lv_answer.<br>
-                    <br>
-                    &nbsp;&nbsp;IF lv_answer = '1'.<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;CALL SCREEN 9002 STARTING AT 10 10. " Pantalla creación<br>
-                    &nbsp;&nbsp;ENDIF.<br>
-                    ENDIF.
-                </div>
-            </div>
 
             <div class="project-section">
                 <h2>Pantallas del Sistema</h2>
                 <div class="screens-container">
                     <div class="screen-card">
                         <h3>Pantalla de Selección</h3>
-                        <img src="../assets/img/empleados-screen1.jpg" alt="Pantalla de selección">
                         <p>Interfaz inicial con campos obligatorios y botón de ejecución.</p>
+                        <img src="../assets/p2/Captura 1.png" alt="Pantalla de selección">
                     </div>
 
                     <div class="screen-card">
                         <h3>Vista de Empleado</h3>
-                        <img src="../assets/img/empleados-screen2.jpg" alt="Vista de empleado">
                         <p>Visualización de datos de empleado con opciones de modificación.</p>
+                        <img src="../assets/p2/Captura 3.png" alt="Vista de empleado">
                     </div>
 
                     <div class="screen-card">
                         <h3>Modal de Confirmación</h3>
-                        <img src="../assets/img/empleados-screen3.jpg" alt="Modal de confirmación">
                         <p>Popup para creación de nuevos empleados cuando no existen.</p>
+                        <img src="../assets/p2/Captura 2.png" alt="Modal de confirmación">
                     </div>
 
                     <div class="screen-card">
                         <h3>Pestaña Compañía Aérea</h3>
-                        <img src="../assets/img/empleados-screen4.jpg" alt="Pestaña compañía">
                         <p>Información de la compañía aérea desde la tabla SCARR.</p>
+                        <img src="../assets/p2/Captura 4.png" alt="Pestaña compañía">
+                        
                     </div>
                 </div>
             </div>
